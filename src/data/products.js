@@ -18,7 +18,7 @@ export const products = [
     rating: 4.9,
     reviews: 2847,
     image:
-      'https://www.parfumprestige.com.br/produtos/dior-sauvage-parfum-100ml-masculino/?srsltid=AfmBOooMIdVPSVw0_Ty34pDyCfAsqFe4ytqTiNcoLoMKnwbZp0MvMh0S',
+      'https://acdn-us.mitiendanube.com/stores/001/066/168/products/whatsapp-image-2022-07-11-at-14-44-401-77d1f48d462b93ae7316575616055975-640-0.webp',
     badge: 'Mais Vendido',
   },
   {

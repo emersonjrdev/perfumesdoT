@@ -72,7 +72,7 @@ export default function Catalog() {
               key={product.id}
               product={product}
               style={{
-                animation: 'fadeIn 0.5s ease-out forwards',
+                animation: 'fadeUp 0.5s ease-out forwards',
                 animationDelay: `${index * 0.05}s`,
                 opacity: 0,
               }}
