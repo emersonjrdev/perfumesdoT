@@ -4,6 +4,7 @@ const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([])
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   const addItem = (product) => {
     setItems((prev) => {
@@ -33,6 +34,10 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setItems([])
 
+  const openCart = () => setIsCartOpen(true)
+  const closeCart = () => setIsCartOpen(false)
+  const toggleCart = () => setIsCartOpen((v) => !v)
+
   const totalPrice = useMemo(
     () => items.reduce((sum, i) => sum + i.price * i.quantity, 0),
     [items],
@@ -52,8 +57,12 @@ export function CartProvider({ children }) {
       clearCart,
       totalPrice,
       totalCount,
+      isCartOpen,
+      openCart,
+      closeCart,
+      toggleCart,
     }),
-    [items, totalPrice, totalCount],
+    [items, totalPrice, totalCount, isCartOpen],
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

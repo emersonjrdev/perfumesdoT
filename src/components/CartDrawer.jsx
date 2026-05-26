@@ -3,40 +3,46 @@ import { X, Plus, Minus, Trash2, MessageCircle } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import { buildCartWhatsAppLink } from '../utils/whatsapp'
 
+const FALLBACK_PRODUCT_IMAGE =
+  'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop'
+
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
 export default function CartDrawer({ open, onClose }) {
-  const { items, removeItem, updateQuantity, totalPrice } = useCart()
+  const { items, removeItem, updateQuantity, totalPrice, isCartOpen, closeCart } =
+    useCart()
+  const isOpen = typeof open === 'boolean' ? open : isCartOpen
+  const handleClose = onClose || closeCart
 
   return (
     <div
-      className={`fixed inset-0 z-50 ${open ? '' : 'pointer-events-none'}`}
-      aria-hidden={!open}
+      className={`fixed inset-0 z-50 ${isOpen ? '' : 'pointer-events-none'}`}
+      aria-hidden={!isOpen}
     >
       <div
         className={`absolute inset-0 bg-black/70 transition-opacity ${
-          open ? 'opacity-100' : 'opacity-0'
+          isOpen ? 'opacity-100' : 'opacity-0'
         }`}
-        onClick={onClose}
+        onClick={handleClose}
         aria-hidden="true"
       />
 
       <aside
-        className={`absolute right-0 top-0 flex h-full w-full max-w-md flex-col border-l border-dark-border bg-[#111] shadow-2xl transition-transform duration-300 ${
-          open ? 'translate-x-0' : 'translate-x-full'
+        className={`absolute right-0 top-0 flex h-full w-full sm:w-96 flex-col border-l border-dark-border bg-[#111] shadow-2xl transition-transform duration-300 ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"
         aria-label="Carrinho de compras"
       >
-        <div className="flex items-center justify-between border-b border-dark-border p-4">
+        <div className="flex items-center justify-between border-b border-dark-border p-4 sm:p-6">
           <h2 className="font-display text-lg font-semibold text-gold">
             Seu Carrinho
           </h2>
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="rounded p-1 text-cream hover:text-gold"
             aria-label="Fechar carrinho"
           >
@@ -44,7 +50,7 @@ export default function CartDrawer({ open, onClose }) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6">
           {items.length === 0 ? (
             <p className="py-8 text-center font-body text-sm text-cream/50">
               Seu carrinho está vazio.
@@ -60,6 +66,10 @@ export default function CartDrawer({ open, onClose }) {
                     src={item.image}
                     alt={item.name}
                     className="h-20 w-16 rounded object-cover"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                    }}
                   />
                   <div className="flex flex-1 flex-col">
                     <p className="font-display text-sm font-semibold text-cream">
@@ -114,7 +124,7 @@ export default function CartDrawer({ open, onClose }) {
         </div>
 
         {items.length > 0 && (
-          <div className="border-t border-dark-border p-4">
+          <div className="border-t border-dark-border p-4 sm:p-6">
             <div className="mb-4 flex justify-between font-body text-sm">
               <span className="text-cream/70">Subtotal</span>
               <span className="font-display text-lg font-semibold text-gold">
@@ -135,14 +145,14 @@ export default function CartDrawer({ open, onClose }) {
             </p>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="w-full rounded border border-dark-border py-2.5 font-body text-sm text-cream/70 transition-colors hover:border-gold hover:text-gold"
             >
               Continuar Comprando
             </button>
             <Link
               to="/carrinho"
-              onClick={onClose}
+              onClick={handleClose}
               className="mt-3 block text-center font-body text-xs text-gold underline"
             >
               Ver carrinho completo

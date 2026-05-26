@@ -53,7 +53,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/#sobre" className="transition-colors hover:text-gold">
+                <Link to="/sobre" className="transition-colors hover:text-gold">
                   Sobre
                 </Link>
               </li>

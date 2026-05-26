@@ -1,6 +1,9 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Star, MessageCircle } from 'lucide-react'
 import { buildWhatsAppLink } from '../utils/whatsapp'
+
+const FALLBACK_PRODUCT_IMAGE =
+  'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop'
 
 const badgeStyles = {
   'Mais Vendido': 'bg-gold text-dark',
@@ -30,6 +33,7 @@ function Stars({ rating }) {
 }
 
 export default function ProductCard({ product, style }) {
+  const nav = useNavigate()
   const discount = Math.max(
     0,
     Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100),
@@ -40,7 +44,16 @@ export default function ProductCard({ product, style }) {
       className="group flex flex-col overflow-hidden rounded-xl border border-dark-border bg-dark-card transition-all duration-300 hover:border-gold hover:shadow-[0_8px_40px_rgba(201,162,86,0.15)]"
       style={style}
     >
-      <Link to={`/produto/${product.id}`} className="relative block overflow-hidden">
+      <div
+        className="relative block cursor-pointer overflow-hidden"
+        role="button"
+        tabIndex={0}
+        onClick={() => nav(`/produto/${product.id}`)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') nav(`/produto/${product.id}`)
+        }}
+        aria-label={`Ver detalhes de ${product.name}`}
+      >
         {product.badge && (
           <span
             className={`absolute left-3 top-3 z-10 rounded px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
@@ -50,26 +63,30 @@ export default function ProductCard({ product, style }) {
             {product.badge}
           </span>
         )}
-        <div className="relative h-[260px] overflow-hidden bg-[#121212]">
+        <div className="relative h-48 overflow-hidden bg-[#121212] sm:h-64">
           <img
             src={product.image}
-            alt={`${product.name} — ${product.brand}`}
+            alt={product.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.08]"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+            }}
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/85 to-transparent" />
         </div>
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col p-4">
         <p className="font-body text-[11px] uppercase tracking-[0.18em] text-gold/80">
           {product.brand}
         </p>
-        <Link to={`/produto/${product.id}`}>
-          <h3 className="font-display text-base font-semibold text-cream transition-colors group-hover:text-gold">
-            {product.name}
-          </h3>
-        </Link>
+        <h3
+          className="cursor-pointer font-display text-sm font-semibold text-cream transition-colors group-hover:text-gold sm:text-base"
+          onClick={() => nav(`/produto/${product.id}`)}
+        >
+          {product.name}
+        </h3>
 
         <div className="mt-3 flex gap-2">
           <span className="rounded-full border border-dark-border bg-dark-hover px-2.5 py-1 text-[10px] uppercase tracking-wider text-cream/60">
@@ -105,7 +122,7 @@ export default function ProductCard({ product, style }) {
           </span>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <div className="mt-4 grid grid-cols-2 gap-2 opacity-100 translate-y-0 md:translate-y-2 md:opacity-0 md:transition-all md:duration-300 md:group-hover:translate-y-0 md:group-hover:opacity-100">
           <Link
             to={`/produto/${product.id}`}
             className="inline-flex items-center justify-center rounded border border-gold/50 py-2 text-center text-xs font-medium uppercase tracking-wider text-gold hover:bg-gold/10"

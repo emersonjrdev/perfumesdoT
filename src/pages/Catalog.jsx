@@ -10,6 +10,7 @@ export default function Catalog() {
   const [concentration, setConcentration] = useState('todos')
   const [maxPrice, setMaxPrice] = useState(priceCeiling)
   const [sortBy, setSortBy] = useState('relevancia')
+  const skeletons = Array.from({ length: 8 })
 
   const filtered = useMemo(() => {
     let result = products.filter((p) => {
@@ -65,7 +66,7 @@ export default function Catalog() {
           Nenhum produto encontrado
         </p>
       ) : (
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
           {filtered.map((product, index) => (
             <ProductCard
               key={product.id}
@@ -76,6 +77,24 @@ export default function Catalog() {
                 opacity: 0,
               }}
             />
+          ))}
+        </div>
+      )}
+
+      {products.length === 0 && (
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6">
+          {skeletons.map((_, idx) => (
+            <div
+              key={idx}
+              className="animate-pulse overflow-hidden rounded-xl border border-dark-border bg-dark-card"
+            >
+              <div className="h-48 bg-dark-hover sm:h-64" />
+              <div className="space-y-3 p-4">
+                <div className="h-3 w-24 rounded bg-dark-hover" />
+                <div className="h-4 w-40 rounded bg-dark-hover" />
+                <div className="h-8 w-full rounded bg-dark-hover" />
+              </div>
+            </div>
           ))}
         </div>
       )}

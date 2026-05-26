@@ -18,7 +18,7 @@ export const products = [
     rating: 4.9,
     reviews: 2847,
     image:
-      'https://images.unsplash.com/photo-1594035910387-fea47794261b?w=600',
+      'https://images.unsplash.com/photo-1592945403407-9caf930a8d6d?q=80&w=600&auto=format&fit=crop',
     badge: 'Mais Vendido',
   },
   {
@@ -40,7 +40,7 @@ export const products = [
     rating: 4.8,
     reviews: 1923,
     image:
-      'https://images.unsplash.com/photo-1541643600914-78b084683702?w=600',
+      'https://images.unsplash.com/photo-1563170351-be82bc888aa4?q=80&w=600&auto=format&fit=crop',
     badge: 'Mais Vendido',
   },
   {
@@ -62,7 +62,7 @@ export const products = [
     rating: 4.9,
     reviews: 2156,
     image:
-      'https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=600',
+      'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop',
     badge: 'Mais Vendido',
   },
   {
@@ -84,7 +84,7 @@ export const products = [
     rating: 4.7,
     reviews: 1678,
     image:
-      'https://images.unsplash.com/photo-1592945403244-b3fbafd7f053?w=600',
+      'https://images.unsplash.com/photo-1594913838779-0c3b70c3abd3?q=80&w=600&auto=format&fit=crop',
     badge: 'Mais Vendido',
   },
   {
@@ -106,7 +106,7 @@ export const products = [
     rating: 4.8,
     reviews: 892,
     image:
-      'https://images.unsplash.com/photo-1595425970387-9bb761c7a6b3?w=600',
+      'https://images.unsplash.com/photo-1619994403073-2cec844b8e63?q=80&w=600&auto=format&fit=crop',
     badge: 'Exclusivo',
   },
   {
@@ -128,7 +128,7 @@ export const products = [
     rating: 4.6,
     reviews: 1432,
     image:
-      'https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=600',
+      'https://images.unsplash.com/photo-1587017539504-67cfbddac569?q=80&w=600&auto=format&fit=crop',
     badge: 'Novo',
   },
   {
@@ -150,7 +150,7 @@ export const products = [
     rating: 4.8,
     reviews: 2034,
     image:
-      'https://images.unsplash.com/photo-1588405748880-12cf1d9a92a7?w=600',
+      'https://images.unsplash.com/photo-1600612253971-3b5f32e65f03?q=80&w=600&auto=format&fit=crop',
     badge: null,
   },
   {
@@ -172,7 +172,7 @@ export const products = [
     rating: 5.0,
     reviews: 756,
     image:
-      'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600',
+      'https://images.unsplash.com/photo-1588776814546-ec7e5b3b4b1c?q=80&w=600&auto=format&fit=crop',
     badge: 'Exclusivo',
   },
   {
@@ -194,7 +194,7 @@ export const products = [
     rating: 4.5,
     reviews: 987,
     image:
-      'https://images.unsplash.com/photo-1592945403244-b3fbafd7f053?w=600&q=80',
+      'https://images.unsplash.com/photo-1590156562745-5f42b4a50e93?q=80&w=600&auto=format&fit=crop',
     badge: 'Novo',
   },
   {
@@ -216,7 +216,7 @@ export const products = [
     rating: 4.7,
     reviews: 1543,
     image:
-      'https://images.unsplash.com/photo-1563170351-be82bc888aa4?w=600',
+      'https://images.unsplash.com/photo-1609178426624-0c9c7bd25f0c?q=80&w=600&auto=format&fit=crop',
     badge: null,
   },
   {
@@ -238,7 +238,7 @@ export const products = [
     rating: 4.6,
     reviews: 1789,
     image:
-      'https://images.unsplash.com/photo-1619994403073-3cec844750a0?w=600',
+      'https://images.unsplash.com/photo-1616171661572-7abf9275d234?q=80&w=600&auto=format&fit=crop',
     badge: null,
   },
   {
@@ -260,7 +260,7 @@ export const products = [
     rating: 4.8,
     reviews: 2234,
     image:
-      'https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=600&q=80',
+      'https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=600&auto=format&fit=crop',
     badge: null,
   },
 ]

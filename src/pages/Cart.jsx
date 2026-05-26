@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
 import { Plus, Minus, Trash2 } from 'lucide-react'
 import { useCart } from '../context/CartContext'
+import { buildCartWhatsAppLink } from '../utils/whatsapp'
 
 const FREE_SHIPPING_THRESHOLD = 299
 const SHIPPING_COST = 19.9
+
+const FALLBACK_PRODUCT_IMAGE =
+  'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop'
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -15,12 +19,6 @@ export default function Cart() {
   const shipping =
     totalPrice >= FREE_SHIPPING_THRESHOLD || items.length === 0 ? 0 : SHIPPING_COST
   const total = totalPrice + shipping
-
-  const handleCheckout = () => {
-    alert(
-      'Pedido simulado! Em breve você poderá finalizar sua compra online. Obrigado por escolher Perfumes do T!',
-    )
-  }
 
   if (items.length === 0) {
     return (
@@ -55,6 +53,10 @@ export default function Cart() {
                   src={item.image}
                   alt={item.name}
                   className="h-28 w-24 rounded object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                  }}
                 />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
@@ -148,13 +150,14 @@ export default function Cart() {
             </div>
           </dl>
 
-          <button
-            type="button"
-            onClick={handleCheckout}
-            className="mt-6 w-full rounded bg-gold py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
+          <a
+            href={buildCartWhatsAppLink(items)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 inline-flex w-full items-center justify-center rounded bg-gold py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
           >
-            Finalizar Pedido
-          </button>
+            Finalizar pedido via WhatsApp
+          </a>
 
           <Link
             to="/catalogo"

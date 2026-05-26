@@ -41,7 +41,7 @@ function Logo({ className = '', mobile = false }) {
 
   return (
     <span
-      className={`font-logo text-lg tracking-[0.18em] text-gold md:text-xl ${className}`}
+      className={`font-logo text-lg tracking-[0.18em] text-gold sm:text-2xl md:text-xl ${className}`}
     >
       PERFUMES DO T
     </span>
@@ -49,7 +49,7 @@ function Logo({ className = '', mobile = false }) {
 }
 
 export default function Navbar({ onOpenCart }) {
-  const { totalCount } = useCart()
+  const { totalCount, openCart } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -68,8 +68,8 @@ export default function Navbar({ onOpenCart }) {
   const links = [
     { to: '/', label: 'Home' },
     { to: '/catalogo', label: 'Catálogo' },
-    { to: '/#sobre', label: 'Sobre' },
-    { to: '/#contato', label: 'Contato' },
+    { to: '/sobre', label: 'Sobre' },
+    { to: '/contato', label: 'Contato' },
   ]
 
   return (
@@ -112,7 +112,7 @@ export default function Navbar({ onOpenCart }) {
 
             <button
               type="button"
-              onClick={onOpenCart}
+              onClick={onOpenCart || openCart}
               className="relative rounded-full p-2 text-cream transition-colors hover:text-gold"
               aria-label={`Abrir carrinho, ${totalCount} itens`}
             >

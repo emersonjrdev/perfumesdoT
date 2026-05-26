@@ -8,11 +8,18 @@ export default function Home() {
       <HeroSection />
       <FeaturedSection />
 
-      <section className="overflow-hidden border-y border-gold/35 bg-gold py-3">
-        <p className="marquee font-display text-xs uppercase tracking-[0.2em] text-dark md:text-[13px]">
-          ✦ ENTREGA PARA TODO O BRASIL ✦ PERFUMES ORIGINAIS ✦ FRETE GRATIS ACIMA DE R$299 ✦
-        </p>
-      </section>
+      <div className="overflow-hidden bg-gold py-3">
+        <div className="animate-marquee whitespace-nowrap font-display text-sm uppercase tracking-widest text-dark">
+          ✦ ENTREGA PARA TODO O BRASIL &nbsp;&nbsp; ✦ PERFUMES ORIGINAIS &nbsp;&nbsp; ✦
+          FRETE GRÁTIS ACIMA DE R$299 &nbsp;&nbsp; ✦ ENTREGA PARA TODO O BRASIL
+          &nbsp;&nbsp; ✦ PERFUMES ORIGINAIS &nbsp;&nbsp; ✦ FRETE GRÁTIS ACIMA DE R$299
+          &nbsp;&nbsp;
+          ✦ ENTREGA PARA TODO O BRASIL &nbsp;&nbsp; ✦ PERFUMES ORIGINAIS &nbsp;&nbsp; ✦
+          FRETE GRÁTIS ACIMA DE R$299 &nbsp;&nbsp; ✦ ENTREGA PARA TODO O BRASIL
+          &nbsp;&nbsp; ✦ PERFUMES ORIGINAIS &nbsp;&nbsp; ✦ FRETE GRÁTIS ACIMA DE R$299
+          &nbsp;&nbsp;
+        </div>
+      </div>
 
       <section className="py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 md:px-6">

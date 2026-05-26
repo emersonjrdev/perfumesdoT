@@ -31,11 +31,16 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-12px)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
       animation: {
         sparkle: 'sparkle 3s ease-in-out infinite',
         'fade-in': 'fadeIn 0.5s ease-out forwards',
         float: 'float 4s ease-in-out infinite',
+        marquee: 'marquee 25s linear infinite',
       },
     },
   },

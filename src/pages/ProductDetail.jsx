@@ -1,10 +1,14 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Star, ShoppingBag, MessageCircle } from 'lucide-react'
-import { getProductById, getRelatedProducts } from '../data/products'
+import { products, getRelatedProducts } from '../data/products'
 import { useCart } from '../context/CartContext'
 import ProductCard from '../components/ProductCard'
 import { buildWhatsAppLink } from '../utils/whatsapp'
+import NotFound from './NotFound'
+
+const FALLBACK_PRODUCT_IMAGE =
+  'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop'
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -12,30 +16,16 @@ function formatPrice(value) {
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const product = getProductById(id)
+  const product = products.find((p) => String(p.id) === String(id))
   const { addItem } = useCart()
   const [activeImage, setActiveImage] = useState(0)
 
   if (!product) {
-    return (
-      <div className="mx-auto max-w-7xl px-4 py-20 text-center">
-        <p className="font-body text-lg text-cream/60">Produto não encontrado.</p>
-        <Link to="/catalogo" className="mt-4 inline-block font-body text-gold underline">
-          Voltar ao catálogo
-        </Link>
-      </div>
-    )
+    return <NotFound />
   }
 
   const related = getRelatedProducts(product.id, product.category)
-  const gallery = useMemo(
-    () => [
-      `${product.image}&sat=-10`,
-      `${product.image}&q=90&crop=entropy`,
-      `${product.image}&blur=20`,
-    ],
-    [product.image],
-  )
+  const gallery = [product.image, product.image, product.image]
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
@@ -50,13 +40,17 @@ export default function ProductDetail() {
         &gt; <span className="text-cream">{product.name}</span>
       </nav>
 
-      <div className="grid gap-10 lg:grid-cols-[55%_45%] lg:gap-16">
+      <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:gap-16">
         <div>
           <div className="overflow-hidden rounded-xl border border-gold/40 bg-dark-card shadow-[0_8px_34px_rgba(201,162,86,0.2)]">
             <img
               src={gallery[activeImage]}
-              alt={`${product.name} — ${product.brand}`}
-              className="aspect-square w-full object-cover"
+              alt={product.name}
+              className="h-72 w-full object-cover sm:h-96 lg:h-auto"
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+              }}
             />
           </div>
           <div className="mt-4 grid grid-cols-3 gap-3">
@@ -73,6 +67,10 @@ export default function ProductDetail() {
                   src={src}
                   alt={`Miniatura ${index + 1} de ${product.name}`}
                   className="h-24 w-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                  }}
                 />
               </button>
             ))}
@@ -166,11 +164,11 @@ export default function ProductDetail() {
             {product.description}
           </p>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <button
               type="button"
               onClick={() => addItem(product)}
-              className="inline-flex items-center justify-center gap-2 rounded border border-gold bg-transparent py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-gold transition-colors hover:bg-gold/10"
+              className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold bg-transparent py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-gold transition-colors hover:bg-gold/10 sm:w-auto sm:flex-1"
             >
               <ShoppingBag className="h-5 w-5" />
               Adicionar ao Carrinho
@@ -179,7 +177,7 @@ export default function ProductDetail() {
               href={buildWhatsAppLink(product)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded bg-gold py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
+              className="inline-flex w-full items-center justify-center gap-2 rounded bg-gold py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light sm:w-auto sm:flex-1"
             >
               <MessageCircle className="h-5 w-5" />
               Comprar via WhatsApp
