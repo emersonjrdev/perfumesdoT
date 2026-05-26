@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-import { X, Plus, Minus, Trash2 } from 'lucide-react'
+import { X, Plus, Minus, Trash2, MessageCircle } from 'lucide-react'
 import { useCart } from '../context/CartContext'
+import { buildCartWhatsAppLink } from '../utils/whatsapp'
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -8,12 +9,6 @@ function formatPrice(value) {
 
 export default function CartDrawer({ open, onClose }) {
   const { items, removeItem, updateQuantity, totalPrice } = useCart()
-
-  const handleCheckout = () => {
-    alert(
-      'Pedido simulado! Em breve você poderá finalizar sua compra online. Obrigado por escolher Perfumes do T!',
-    )
-  }
 
   return (
     <div
@@ -126,13 +121,18 @@ export default function CartDrawer({ open, onClose }) {
                 {formatPrice(totalPrice)}
               </span>
             </div>
-            <button
-              type="button"
-              onClick={handleCheckout}
-              className="mb-3 w-full rounded bg-gold py-3 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
+            <a
+              href={buildCartWhatsAppLink(items)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-2 inline-flex w-full items-center justify-center gap-2 rounded bg-gold py-3 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
             >
-              Finalizar Pedido
-            </button>
+              <MessageCircle className="h-4 w-4" />
+              Pedir via WhatsApp
+            </a>
+            <p className="mb-3 text-center text-xs text-cream/45">
+              Você será redirecionado para o WhatsApp
+            </p>
             <button
               type="button"
               onClick={onClose}

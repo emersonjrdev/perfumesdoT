@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { Star, ShoppingBag } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { Star, MessageCircle } from 'lucide-react'
+import { buildWhatsAppLink } from '../utils/whatsapp'
 
 const badgeStyles = {
-  'Mais Vendido': 'bg-gold/20 text-gold border-gold/40',
-  Novo: 'bg-emerald-900/50 text-emerald-400 border-emerald-600/40',
-  Exclusivo: 'bg-purple-900/50 text-purple-300 border-purple-600/40',
+  'Mais Vendido': 'bg-gold text-dark',
+  Novo: 'bg-emerald-950 text-emerald-300',
+  Exclusivo: 'bg-purple-950 text-purple-300',
 }
 
 function formatPrice(value) {
@@ -30,73 +30,98 @@ function Stars({ rating }) {
 }
 
 export default function ProductCard({ product, style }) {
-  const { addItem } = useCart()
-
-  const handleAdd = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    addItem(product)
-  }
+  const discount = Math.max(
+    0,
+    Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100),
+  )
 
   return (
     <article
-      className="group flex flex-col overflow-hidden rounded-lg border border-dark-border bg-dark-card transition-all duration-300 hover:border-gold/40"
+      className="group flex flex-col overflow-hidden rounded-xl border border-dark-border bg-dark-card transition-all duration-300 hover:border-gold hover:shadow-[0_8px_40px_rgba(201,162,86,0.15)]"
       style={style}
     >
       <Link to={`/produto/${product.id}`} className="relative block overflow-hidden">
         {product.badge && (
           <span
-            className={`absolute left-3 top-3 z-10 rounded border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+            className={`absolute left-3 top-3 z-10 rounded px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
               badgeStyles[product.badge]
             }`}
           >
             {product.badge}
           </span>
         )}
-        <div className="aspect-[3/4] overflow-hidden bg-[#1a1a1a]">
+        <div className="relative h-[260px] overflow-hidden bg-[#121212]">
           <img
             src={product.image}
             alt={`${product.name} — ${product.brand}`}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.08]"
             loading="lazy"
           />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/85 to-transparent" />
         </div>
       </Link>
 
       <div className="flex flex-1 flex-col p-4">
+        <p className="font-body text-[11px] uppercase tracking-[0.18em] text-gold/80">
+          {product.brand}
+        </p>
         <Link to={`/produto/${product.id}`}>
-          <h3 className="font-display text-lg font-semibold text-cream transition-colors group-hover:text-gold">
+          <h3 className="font-display text-base font-semibold text-cream transition-colors group-hover:text-gold">
             {product.name}
           </h3>
-          <p className="mt-0.5 font-body text-xs uppercase tracking-widest text-cream/50">
-            {product.brand}
-          </p>
         </Link>
 
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-3 flex gap-2">
+          <span className="rounded-full border border-dark-border bg-dark-hover px-2.5 py-1 text-[10px] uppercase tracking-wider text-cream/60">
+            {product.concentration}
+          </span>
+          <span className="rounded-full border border-dark-border bg-dark-hover px-2.5 py-1 text-[10px] uppercase tracking-wider text-cream/60">
+            {product.size}
+          </span>
+        </div>
+
+        <div className="mt-3 flex items-center gap-2">
           <Stars rating={product.rating} />
           <span className="font-body text-xs text-cream/50">
             ({product.reviews.toLocaleString('pt-BR')})
           </span>
         </div>
 
-        <div className="mt-3 flex items-baseline gap-2">
+        <div className="mt-3 h-px w-full bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+
+        <div className="mt-3 flex items-center justify-between gap-2">
           <span className="font-body text-sm text-cream/40 line-through">
             {formatPrice(product.originalPrice)}
           </span>
-          <span className="font-display text-xl font-semibold text-gold">
+          {discount > 0 && (
+            <span className="rounded-full bg-red-700/80 px-2 py-0.5 text-[10px] font-semibold text-white">
+              -{discount}%
+            </span>
+          )}
+        </div>
+        <div className="mt-1 flex items-baseline gap-2">
+          <span className="font-display text-[22px] font-semibold text-gold">
             {formatPrice(product.price)}
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleAdd}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded border border-gold/50 bg-transparent py-2.5 font-body text-sm font-medium text-gold transition-all hover:bg-gold hover:text-dark"
-        >
-          <ShoppingBag className="h-4 w-4" />
-          Adicionar ao Carrinho
-        </button>
+        <div className="mt-4 grid grid-cols-2 gap-2 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <Link
+            to={`/produto/${product.id}`}
+            className="inline-flex items-center justify-center rounded border border-gold/50 py-2 text-center text-xs font-medium uppercase tracking-wider text-gold hover:bg-gold/10"
+          >
+            Ver Detalhes
+          </Link>
+          <a
+            href={buildWhatsAppLink(product)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1 rounded bg-gold py-2 text-xs font-semibold uppercase tracking-wider text-dark hover:bg-gold-light"
+          >
+            <MessageCircle className="h-3.5 w-3.5" />
+            Pedir no WhatsApp
+          </a>
+        </div>
       </div>
     </article>
   )

@@ -1,11 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Sparkles, ShoppingBag, Menu, X } from 'lucide-react'
+import { ShoppingBag, Menu, X } from 'lucide-react'
 import InstagramIcon from './InstagramIcon'
 import { useCart } from '../context/CartContext'
 import { SITE_LOGO_SRC } from '../constants/branding'
 
-function Logo({ className = '' }) {
+function SprayIcon() {
+  return (
+    <svg viewBox="0 0 28 28" className="h-7 w-7 text-gold" aria-hidden="true">
+      <path
+        d="M8 10h8a2 2 0 0 1 2 2v10H6V12a2 2 0 0 1 2-2z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+      <path
+        d="M10 8h8m-1-2h4M20 6v4m3-1h1m-1 3h1m-2-5h1"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function Logo({ className = '', mobile = false }) {
   const [imgError, setImgError] = useState(false)
 
   if (!imgError) {
@@ -13,7 +33,7 @@ function Logo({ className = '' }) {
       <img
         src={SITE_LOGO_SRC}
         alt="Perfumes do T"
-        className={`h-10 w-auto object-contain ${className}`}
+        className={`${mobile ? 'h-9' : 'h-10'} w-auto object-contain ${className}`}
         onError={() => setImgError(true)}
       />
     )
@@ -21,7 +41,7 @@ function Logo({ className = '' }) {
 
   return (
     <span
-      className={`font-display text-lg font-bold tracking-widest text-gold md:text-xl ${className}`}
+      className={`font-logo text-lg tracking-[0.18em] text-gold md:text-xl ${className}`}
     >
       PERFUMES DO T
     </span>
@@ -31,10 +51,18 @@ function Logo({ className = '' }) {
 export default function Navbar({ onOpenCart }) {
   const { totalCount } = useCart()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 28)
+    onScroll()
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const navLinkClass = ({ isActive }) =>
-    `font-body text-sm font-medium tracking-wide transition-colors hover:text-gold ${
-      isActive ? 'text-gold' : 'text-cream/80'
+    `relative py-1 font-body text-sm font-medium tracking-[0.16em] uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gold after:transition-transform hover:text-gold hover:after:scale-x-100 ${
+      isActive ? 'text-gold after:scale-x-100' : 'text-cream/80'
     }`
 
   const links = [
@@ -46,14 +74,20 @@ export default function Navbar({ onOpenCart }) {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-dark-border/60 bg-dark/95 backdrop-blur-md">
+      <header
+        className={`sticky top-0 z-[60] border-b border-gold/30 transition-all duration-500 ${
+          scrolled
+            ? 'bg-[rgba(6,6,6,0.92)] shadow-[0_10px_25px_rgba(0,0,0,0.45)] backdrop-blur-[20px]'
+            : 'bg-[rgba(6,6,6,0.45)] backdrop-blur-[8px]'
+        }`}
+      >
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
           <Link
             to="/"
-            className="flex items-center gap-2"
+            className="flex items-center gap-2.5"
             onClick={() => setMenuOpen(false)}
           >
-            <Sparkles className="h-5 w-5 text-gold" aria-hidden="true" />
+            <SprayIcon />
             <Logo />
           </Link>
 
@@ -70,7 +104,7 @@ export default function Navbar({ onOpenCart }) {
               href="https://www.instagram.com/perfumes_do_t/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden text-cream/70 transition-colors hover:text-gold sm:block"
+              className="hidden rounded-full p-2 text-gold transition-all hover:bg-gold/10 hover:shadow-[0_0_18px_rgba(201,162,86,0.35)] sm:block"
               aria-label="Instagram Perfumes do T"
             >
               <InstagramIcon className="h-5 w-5" />
@@ -84,7 +118,7 @@ export default function Navbar({ onOpenCart }) {
             >
               <ShoppingBag className="h-5 w-5" />
               {totalCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-semibold text-white">
+                <span className="gold-pulse absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-semibold text-white">
                   {totalCount > 9 ? '9+' : totalCount}
                 </span>
               )}
@@ -114,12 +148,15 @@ export default function Navbar({ onOpenCart }) {
           onClick={() => setMenuOpen(false)}
         />
         <aside
-          className={`absolute left-0 top-0 flex h-full w-72 flex-col border-r border-dark-border bg-[#1a1a1a] p-6 transition-transform ${
+          className={`absolute left-0 top-0 flex h-full w-72 flex-col border-r border-dark-border bg-[#0d0d0d] p-6 transition-transform ${
             menuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
           <div className="mb-8 flex items-center justify-between">
-            <Logo />
+            <div className="flex items-center gap-2">
+              <SprayIcon />
+              <Logo mobile />
+            </div>
             <button
               type="button"
               onClick={() => setMenuOpen(false)}

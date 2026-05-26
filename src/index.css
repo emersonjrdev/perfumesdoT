@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 162, 86, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(201, 162, 86, 0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -9,6 +49,48 @@
 
   body {
     @apply bg-dark font-body text-cream antialiased;
+    cursor:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='5' r='4' fill='%23c9a256'/%3E%3C/svg%3E")
+        5 5,
+      auto;
+  }
+
+  h2 {
+    @apply relative inline-block font-display;
+  }
+
+  h2::before,
+  h2::after {
+    @apply absolute top-1/2 h-px w-8 bg-gold/70;
+    content: '';
+  }
+
+  h2::before {
+    left: -2.75rem;
+  }
+
+  h2::after {
+    right: -2.75rem;
+  }
+
+  *::selection {
+    @apply bg-gold text-dark;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-dark;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gold/70;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-gold;
   }
 }
 
@@ -20,5 +102,19 @@
     background: radial-gradient(circle, #e2c47a 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
+  }
+
+  .fade-up {
+    animation: fadeUp 0.9s ease forwards;
+    opacity: 0;
+  }
+
+  .gold-pulse {
+    animation: pulse-gold 2s infinite;
+  }
+
+  .marquee {
+    animation: marquee 16s linear infinite;
+    white-space: nowrap;
   }
 }

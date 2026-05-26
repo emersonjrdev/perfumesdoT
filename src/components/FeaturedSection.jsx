@@ -5,7 +5,7 @@ export default function FeaturedSection() {
   const featured = getFeaturedProducts()
 
   return (
-    <section className="py-16 md:py-24">
+    <section id="destaques" className="py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <div className="text-center">
           <h2 className="font-display text-3xl font-semibold text-cream md:text-4xl">

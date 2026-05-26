@@ -1,20 +1,10 @@
+import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import {
-  Star,
-  ShoppingBag,
-  Leaf,
-  Heart,
-  Mountain,
-} from 'lucide-react'
+import { Star, ShoppingBag, MessageCircle } from 'lucide-react'
 import { getProductById, getRelatedProducts } from '../data/products'
 import { useCart } from '../context/CartContext'
 import ProductCard from '../components/ProductCard'
-
-const badgeStyles = {
-  'Mais Vendido': 'bg-gold/20 text-gold border-gold/40',
-  Novo: 'bg-emerald-900/50 text-emerald-400 border-emerald-600/40',
-  Exclusivo: 'bg-purple-900/50 text-purple-300 border-purple-600/40',
-}
+import { buildWhatsAppLink } from '../utils/whatsapp'
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -24,6 +14,7 @@ export default function ProductDetail() {
   const { id } = useParams()
   const product = getProductById(id)
   const { addItem } = useCart()
+  const [activeImage, setActiveImage] = useState(0)
 
   if (!product) {
     return (
@@ -37,37 +28,66 @@ export default function ProductDetail() {
   }
 
   const related = getRelatedProducts(product.id, product.category)
+  const gallery = useMemo(
+    () => [
+      `${product.image}&sat=-10`,
+      `${product.image}&q=90&crop=entropy`,
+      `${product.image}&blur=20`,
+    ],
+    [product.image],
+  )
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 md:px-6 md:py-14">
-      <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="overflow-hidden rounded-lg border-2 border-gold/30 bg-dark-card">
-          <img
-            src={product.image}
-            alt={`${product.name} — ${product.brand}`}
-            className="aspect-square w-full object-cover"
-          />
+      <nav className="mb-8 font-body text-sm text-cream/60">
+        <Link to="/" className="text-gold hover:text-gold-light">
+          Home
+        </Link>{' '}
+        &gt;{' '}
+        <Link to="/catalogo" className="text-gold hover:text-gold-light">
+          Catálogo
+        </Link>{' '}
+        &gt; <span className="text-cream">{product.name}</span>
+      </nav>
+
+      <div className="grid gap-10 lg:grid-cols-[55%_45%] lg:gap-16">
+        <div>
+          <div className="overflow-hidden rounded-xl border border-gold/40 bg-dark-card shadow-[0_8px_34px_rgba(201,162,86,0.2)]">
+            <img
+              src={gallery[activeImage]}
+              alt={`${product.name} — ${product.brand}`}
+              className="aspect-square w-full object-cover"
+            />
+          </div>
+          <div className="mt-4 grid grid-cols-3 gap-3">
+            {gallery.map((src, index) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setActiveImage(index)}
+                className={`overflow-hidden rounded-lg border ${
+                  activeImage === index ? 'border-gold' : 'border-dark-border'
+                }`}
+              >
+                <img
+                  src={src}
+                  alt={`Miniatura ${index + 1} de ${product.name}`}
+                  className="h-24 w-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
         <div>
-          {product.badge && (
-            <span
-              className={`inline-block rounded border px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
-                badgeStyles[product.badge]
-              }`}
-            >
-              {product.badge}
-            </span>
-          )}
-
-          <p className="mt-3 font-body text-sm uppercase tracking-[0.2em] text-cream/50">
+          <p className="font-body text-xs uppercase tracking-[0.24em] text-gold">
             {product.brand}
           </p>
-          <h1 className="mt-1 font-display text-4xl font-bold text-cream md:text-5xl">
+          <h1 className="mt-2 font-logo text-4xl leading-tight text-cream md:text-5xl">
             {product.name}
           </h1>
 
-          <div className="mt-4 flex items-center gap-2">
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             <div className="flex">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
@@ -83,60 +103,60 @@ export default function ProductDetail() {
             <span className="font-body text-sm text-cream/60">
               {product.rating} ({product.reviews.toLocaleString('pt-BR')} avaliações)
             </span>
+            <span className="rounded-full bg-emerald-900/60 px-2.5 py-1 text-xs text-emerald-300">
+              Em estoque
+            </span>
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className="rounded border border-dark-border bg-[#1a1a1a] px-3 py-1 font-body text-xs text-cream/80">
+            <span className="rounded-full border border-dark-border bg-dark-hover px-3 py-1 font-body text-xs uppercase tracking-wider text-cream/80">
               {product.concentration}
             </span>
-            <span className="rounded border border-dark-border bg-[#1a1a1a] px-3 py-1 font-body text-xs text-cream/80">
+            <span className="rounded-full border border-dark-border bg-dark-hover px-3 py-1 font-body text-xs uppercase tracking-wider text-cream/80">
               {product.size}
             </span>
-            <span className="rounded border border-dark-border bg-[#1a1a1a] px-3 py-1 font-body text-xs capitalize text-cream/80">
+            <span className="rounded-full border border-dark-border bg-dark-hover px-3 py-1 font-body text-xs uppercase tracking-wider text-cream/80">
               {product.category}
             </span>
           </div>
+
+          <div className="mt-6 h-px w-full bg-gradient-to-r from-gold/20 via-gold to-gold/20" />
 
           <div className="mt-6 flex items-baseline gap-3">
             <span className="font-body text-lg text-cream/40 line-through">
               {formatPrice(product.originalPrice)}
             </span>
-            <span className="font-display text-4xl font-semibold text-gold">
+            <span className="font-display text-4xl font-semibold text-gold md:text-[36px]">
               {formatPrice(product.price)}
             </span>
           </div>
+          <p className="mt-1 text-xs text-cream/45">Parcele em ate 12x sem juros.</p>
 
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            <div className="rounded-lg border border-dark-border bg-dark-card p-4 text-center">
-              <Leaf className="mx-auto h-5 w-5 text-gold" />
-              <p className="mt-2 font-display text-xs font-semibold text-gold">Topo</p>
-              <ul className="mt-2 space-y-1">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-dark-border bg-dark-card p-4">
+              <p className="text-lg">🌿</p>
+              <p className="mt-1 text-sm font-semibold text-gold">Notas de Topo</p>
+              <ul className="mt-2 space-y-1 text-xs text-cream/65">
                 {product.notes.top.map((note) => (
-                  <li key={note} className="font-body text-[11px] text-cream/60">
-                    {note}
-                  </li>
+                  <li key={note}>{note}</li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg border border-dark-border bg-dark-card p-4 text-center">
-              <Heart className="mx-auto h-5 w-5 text-gold" />
-              <p className="mt-2 font-display text-xs font-semibold text-gold">Coração</p>
-              <ul className="mt-2 space-y-1">
+            <div className="rounded-xl border border-dark-border bg-dark-card p-4">
+              <p className="text-lg">💐</p>
+              <p className="mt-1 text-sm font-semibold text-gold">Notas de Coração</p>
+              <ul className="mt-2 space-y-1 text-xs text-cream/65">
                 {product.notes.heart.map((note) => (
-                  <li key={note} className="font-body text-[11px] text-cream/60">
-                    {note}
-                  </li>
+                  <li key={note}>{note}</li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-lg border border-dark-border bg-dark-card p-4 text-center">
-              <Mountain className="mx-auto h-5 w-5 text-gold" />
-              <p className="mt-2 font-display text-xs font-semibold text-gold">Base</p>
-              <ul className="mt-2 space-y-1">
+            <div className="rounded-xl border border-dark-border bg-dark-card p-4">
+              <p className="text-lg">🌳</p>
+              <p className="mt-1 text-sm font-semibold text-gold">Notas de Base</p>
+              <ul className="mt-2 space-y-1 text-xs text-cream/65">
                 {product.notes.base.map((note) => (
-                  <li key={note} className="font-body text-[11px] text-cream/60">
-                    {note}
-                  </li>
+                  <li key={note}>{note}</li>
                 ))}
               </ul>
             </div>
@@ -146,14 +166,25 @@ export default function ProductDetail() {
             {product.description}
           </p>
 
-          <button
-            type="button"
-            onClick={() => addItem(product)}
-            className="mt-8 flex w-full items-center justify-center gap-2 rounded bg-gold py-4 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light md:w-auto md:px-12"
-          >
-            <ShoppingBag className="h-5 w-5" />
-            Adicionar ao Carrinho
-          </button>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => addItem(product)}
+              className="inline-flex items-center justify-center gap-2 rounded border border-gold bg-transparent py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-gold transition-colors hover:bg-gold/10"
+            >
+              <ShoppingBag className="h-5 w-5" />
+              Adicionar ao Carrinho
+            </button>
+            <a
+              href={buildWhatsAppLink(product)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded bg-gold py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
+            >
+              <MessageCircle className="h-5 w-5" />
+              Comprar via WhatsApp
+            </a>
+          </div>
         </div>
       </div>
 
