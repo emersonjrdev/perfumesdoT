@@ -118,3 +118,32 @@
     white-space: nowrap;
   }
 }
+
+.hero-bg {
+  background-repeat: no-repeat;
+}
+
+/* DESKTOP — imagem completa, frascos à direita */
+@media (min-width: 768px) {
+  .hero-bg {
+    background-image: url('/banner-desktop.jpg');
+    background-size: cover;
+    background-position: center top;
+  }
+}
+
+/* MOBILE — recorta focando nos 3 frascos (parte central-direita) */
+@media (max-width: 767px) {
+  .hero-bg {
+    background-image: url('/banner-desktop.jpg');
+    background-size: 280%;
+    background-position: 68% 30%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
