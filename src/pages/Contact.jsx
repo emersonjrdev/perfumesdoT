@@ -47,7 +47,7 @@ export default function Contact() {
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-cream">WhatsApp</p>
                   <a
-                    href="https://wa.me/5511999999999"
+                    href="https://wa.me/message/XRY3ZML54HGNE1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex w-full items-center justify-center rounded bg-gold px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-dark hover:bg-gold-light"

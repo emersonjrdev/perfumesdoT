@@ -1,4 +1,4 @@
-const WHATSAPP_NUMBER = '5511999999999'
+const WHATSAPP_LINK = 'https://wa.me/message/XRY3ZML54HGNE1'
 
 export function buildWhatsAppLink(product) {
   const mensagem = encodeURIComponent(
@@ -10,7 +10,7 @@ export function buildWhatsAppLink(product) {
       `💰 Preço: R$ ${product.price.toFixed(2).replace('.', ',')}\n\n` +
       `Poderia me passar mais informações e disponibilidade?`,
   )
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`
+  return `${WHATSAPP_LINK}?text=${mensagem}`
 }
 
 export function buildCartWhatsAppLink(items) {
@@ -32,5 +32,5 @@ export function buildCartWhatsAppLink(items) {
       `Poderia confirmar disponibilidade e formas de pagamento?`,
   )
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${mensagem}`
+  return `${WHATSAPP_LINK}?text=${mensagem}`
 }

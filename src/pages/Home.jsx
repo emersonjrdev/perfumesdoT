@@ -80,7 +80,7 @@ export default function Home() {
             Estamos prontos para ajudá-lo a encontrar a fragrância perfeita.
           </p>
           <a
-            href="https://wa.me/5511999999999"
+            href="https://wa.me/message/XRY3ZML54HGNE1"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center justify-center rounded bg-gold px-8 py-3 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"
@@ -96,7 +96,7 @@ export default function Home() {
           Fale com a gente agora e garanta o seu!
         </p>
         <a
-          href="https://wa.me/5511999999999"
+          href="https://wa.me/message/XRY3ZML54HGNE1"
           target="_blank"
           rel="noopener noreferrer"
           className="mt-8 inline-flex rounded bg-dark px-10 py-3.5 text-sm font-semibold uppercase tracking-wider text-gold transition-colors hover:bg-black"

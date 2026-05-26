@@ -42,7 +42,7 @@ export default function About() {
 
       <div className="mt-12 text-center">
         <a
-          href="https://wa.me/5511999999999"
+          href="https://wa.me/message/XRY3ZML54HGNE1"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 rounded bg-gold px-10 py-3.5 font-body text-sm font-semibold uppercase tracking-wider text-dark transition-colors hover:bg-gold-light"

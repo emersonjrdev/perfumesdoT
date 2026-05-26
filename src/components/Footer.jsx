@@ -77,7 +77,7 @@ export default function Footer() {
                 <InstagramIcon className="h-5 w-5" />
               </a>
               <a
-                href="https://wa.me/5511999999999"
+                href="https://wa.me/message/XRY3ZML54HGNE1"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-dark-border p-2 text-cream/70 transition-colors hover:text-emerald-400"

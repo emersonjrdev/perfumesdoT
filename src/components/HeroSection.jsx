@@ -76,7 +76,7 @@ export default function HeroSection() {
             Explorar Coleção
           </Link>
           <a
-            href="https://wa.me/5511999999999"
+            href="https://wa.me/message/XRY3ZML54HGNE1"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex w-full items-center justify-center gap-2 rounded border border-gold/60 px-8 py-3.5 font-body text-sm font-medium uppercase tracking-wider text-gold transition-all hover:bg-gold hover:text-dark sm:w-auto"
