@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown, MessageCircle } from 'lucide-react'
 
@@ -13,6 +13,15 @@ const particles = Array.from({ length: 20 }, (_, i) => ({
 
 export default function HeroSection() {
   const [bannerSrc, setBannerSrc] = useState('/banner.jpg')
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobile(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
 
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden">
@@ -22,7 +31,8 @@ export default function HeroSection() {
         style={{
           backgroundImage: `url('${bannerSrc}')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: isMobile ? '75% center' : '60% top',
+          backgroundRepeat: 'no-repeat',
         }}
         aria-hidden="true"
       />
@@ -30,7 +40,7 @@ export default function HeroSection() {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)',
+            'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 25%, transparent 60%), linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 20%)',
         }}
         aria-hidden="true"
       />

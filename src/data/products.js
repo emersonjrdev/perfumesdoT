@@ -18,7 +18,7 @@ export const products = [
     rating: 4.9,
     reviews: 2847,
     image:
-      'https://images.unsplash.com/photo-1592945403407-9caf930a8d6d?q=80&w=600&auto=format&fit=crop',
+      'https://www.parfumprestige.com.br/produtos/dior-sauvage-parfum-100ml-masculino/?srsltid=AfmBOooMIdVPSVw0_Ty34pDyCfAsqFe4ytqTiNcoLoMKnwbZp0MvMh0S',
     badge: 'Mais Vendido',
   },
   {
@@ -62,7 +62,7 @@ export const products = [
     rating: 4.9,
     reviews: 2156,
     image:
-      'https://images.unsplash.com/photo-1541643600914-78b084683702?q=80&w=600&auto=format&fit=crop',
+      'https://images.tcdn.com.br/img/img_prod/611043/perfume_bleu_pour_homme_edt_100ml_chanel_3689_2_650687abcb44f13d8db72a1a9f58f423.jpg',
     badge: 'Mais Vendido',
   },
   {
@@ -84,7 +84,7 @@ export const products = [
     rating: 4.7,
     reviews: 1678,
     image:
-      'https://images.unsplash.com/photo-1594913838779-0c3b70c3abd3?q=80&w=600&auto=format&fit=crop',
+      'https://amobeleza.vtexassets.com/arquivos/ids/330159/Perfume-Lancome-La-Vie-Est-Belle-Iris-Absolu-Feminino-Eau-de-Parfum-50-ml-foto-cinco.jpg?v=639106649056370000',
     badge: 'Mais Vendido',
   },
   {

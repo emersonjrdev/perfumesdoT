@@ -39,6 +39,7 @@ export default function App() {
             target="_blank"
             rel="noopener noreferrer"
             className="fixed bottom-6 right-6 z-50 rounded-full bg-green-500 p-4 text-white shadow-lg shadow-green-500/30 transition-all duration-300 hover:scale-110 hover:bg-green-400"
+            style={{ zIndex: 9999 }}
             aria-label="Chamar no WhatsApp"
           >
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
