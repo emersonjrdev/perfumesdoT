@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark font-body text-cream antialiased;
+  }
+}
+
+@layer utilities {
+  .sparkle-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #e2c47a 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+}
